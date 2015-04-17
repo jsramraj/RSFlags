@@ -10,4 +10,6 @@
 
 @interface UIImage (Flags)
 
++ (UIImage *)flagForCountryCode:(NSString *)countryCode;
+
 @end

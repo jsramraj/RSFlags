@@ -7,46 +7,27 @@
 //
 
 #import "ViewController.h"
+#import "UIImage+Flags.h"
 
 @interface ViewController ()
-
+{
+    NSArray *countries;
+}
 @end
 
 @implementation ViewController
 
-static inline CGRect CGRectMultiply(CGRect rect, CGFloat factor)
-{
-    return CGRectMake(rect.origin.x*factor, rect.origin.y*factor, rect.size.width*factor, rect.size.height*factor);
-}
-
 - (void)viewDidLoad {
-    
-    NSLog(@"Flag has been loaded");
-    
-    const char char1 = *[@"I" UTF8String];
-    int index1 = char1 - 64;
-    NSLog(@"%d", index1);
+    //@Keeguon, Thanks you, for the country list
+    //https://gist.github.com/Keeguon/2310008
 
-    const char char2 = *[@"N" UTF8String];
-    int index2 = char2 - 64;
-    NSLog(@"%d", index2);
+    NSData *data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"CountriesList" withExtension:@"json"]];
+    NSError *error = nil;
+    countries = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+    if (error) {
+        NSLog(@"%@", [error localizedDescription]);
+    }
     
-//    CGRect fromRect = CGRectMake(32, 18, 32, 22);
-//    CGRect fromRect = CGRectMake(index1*32, index2*22, 32, 22);
-    UIImage *origImage = [UIImage imageWithCGImage:[UIImage imageNamed:@"WorldFlags"].CGImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-    
-    CGRect fromRect = CGRectMake(index1*16, index2*11, 16, 11);
-    fromRect = CGRectMultiply(fromRect, [UIScreen mainScreen].scale);
-    CGImageRef drawImage = CGImageCreateWithImageInRect(origImage.CGImage, fromRect);
-    UIImage *newImage = [UIImage imageWithCGImage:drawImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-    CGImageRelease(drawImage);
-
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 16, 11)];
-//    [imageView setBackgroundColor:[UIColor redColor]];
-    [imageView setContentMode:UIViewContentModeScaleAspectFit];
-    [imageView setImage:newImage];
-    [self.view addSubview:imageView];
     
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
@@ -55,6 +36,20 @@ static inline CGRect CGRectMultiply(CGRect rect, CGFloat factor)
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return [countries count];
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSDictionary *country = countries[indexPath.row];
+    
+    UITableViewCell *cell   =   [tableView dequeueReusableCellWithIdentifier:@"MyCell"];
+    cell.textLabel.text     =   country[@"name"];
+    cell.detailTextLabel.text=  country[@"code"];
+    cell.imageView.image    =   [UIImage flagForCountryCode:country[@"code"]];
+    return cell;
 }
 
 @end
