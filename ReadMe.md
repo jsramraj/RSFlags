@@ -14,16 +14,17 @@ Supported SDK and OS Versions
 
 Installation
 -------------
-    To use the Flags in your project, just drag the UIImage+RSFlags.h and .m file into your project and also drag the WorldFlags image from the image asset.
+To use the Flags in your project, just drag the `UIImage+RSFlags.h and .m` file into your project and also drag the WorldFlags image from the image asset.
 
 Usage
 ------
-    The UIImage category has a method called,
-+ (UIImage *)flagForCountryCode:(NSString *)countryCode
+The `UIImage` category has a method called,
+    ```+ (UIImage *)flagForCountryCode:(NSString *)countryCode```
 which will return you the flag image for the country code you pass.
 
-    For example, the following call will return the flag for United States. Here "US" is the code for United States,
-UIImage *flag = [UIImage flagForCountryCode:@"US"];
+For example, the following call will return the flag for United States. Here "US" is the code for United States,
+
+    UIImage *flag = [UIImage flagForCountryCode:@"US"];
 
 
 
