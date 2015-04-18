@@ -39,7 +39,20 @@
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    NSLog(@"%@", textField.text);
+    [flagImageView setImage:nil];
+    if (textField.text && ![string isEqualToString:@""]) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF.dial_code LIKE %@", [textField.text stringByAppendingString:string]];
+        NSArray *filetered = [countries filteredArrayUsingPredicate:predicate];
+        if (filetered && [filetered count]>0) {
+            CATransition *transition = [CATransition animation];
+            transition.duration = 1.0f;
+            transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+            transition.type = kCATransitionFromTop;
+            
+            [flagImageView setImage:[UIImage flagForCountryCode:filetered[0][@"code"]]];
+            [flagImageView.layer addAnimation:transition forKey:nil];
+        }
+    }
     return YES;
 }
 
