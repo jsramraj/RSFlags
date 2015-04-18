@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIImage (Flags)
+@interface UIImage (RSFlags)
 
 + (UIImage *)flagForCountryCode:(NSString *)countryCode;
 

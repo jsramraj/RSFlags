@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "UIImage+Flags.h"
+#import "UIImage+RSFlags.h"
 
 @interface ViewController ()
 {
@@ -23,6 +23,9 @@
     NSData *data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"CountriesList" withExtension:@"json"]];
     NSError *error = nil;
     countries = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+    countries = [countries sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1[@"name"] compare:obj2[@"name"] options:NSCaseInsensitiveSearch];
+    }];
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }

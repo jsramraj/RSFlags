@@ -7,9 +7,9 @@
 //
 
 #import "PhoneViewController.h"
-#import "UIImage+Flags.h"
+#import "UIImage+RSFlags.h"
 
-@interface PhoneViewController ()
+@interface PhoneViewController () <UIPickerViewDataSource, UIPickerViewDelegate>
 {
     NSArray *countries;
 }
@@ -24,6 +24,10 @@
     NSData *data = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"CountriesList" withExtension:@"json"]];
     NSError *error = nil;
     countries = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
+    countries = [countries sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [obj1[@"name"] compare:obj2[@"name"] options:NSCaseInsensitiveSearch];
+    }];
+
     if (error) {
         NSLog(@"%@", [error localizedDescription]);
     }
@@ -31,6 +35,11 @@
     phoneNumberField.leftViewMode = UITextFieldViewModeAlways;
     phoneNumberField.leftView = redView;
     [flagImageView setImage:[UIImage flagForCountryCode:@"US"]];
+    
+    UIPickerView *picker = [[UIPickerView alloc] init];
+    [picker setDataSource:self];
+    [picker setDelegate:self];
+    [countryField setInputView:picker];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,11 +59,45 @@
             transition.type = kCATransitionFromTop;
             
             [flagImageView setImage:[UIImage flagForCountryCode:filetered[0][@"code"]]];
-            [flagImageView.layer addAnimation:transition forKey:nil];
+//            [flagImageView.layer addAnimation:transition forKey:nil];
         }
     }
     return YES;
 }
+
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+    if (!view)
+    {
+        //Custom view creation code is copied from
+        //https://github.com/nicklockwood/CountryPicker/blob/master/CountryPicker/CountryPicker.m
+        
+        view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 30)];
+        
+        UILabel *countryName = [[UILabel alloc] initWithFrame:CGRectMake(35, 3, 245, 24)];
+        countryName.backgroundColor = [UIColor clearColor];
+        countryName.tag = 1;
+        [view addSubview:countryName];
+        
+        UIImageView *flagImage = [[UIImageView alloc] initWithFrame:CGRectMake(3, 9, 16, 11)];
+        flagImage.contentMode = UIViewContentModeScaleAspectFit;
+        flagImage.tag = 2;
+        [view addSubview:flagImage];
+    }
+    NSDictionary *country = countries[row];
+    ((UILabel *)[view viewWithTag:1]).text = country[@"name"];
+    ((UIImageView *)[view viewWithTag:2]).image = [UIImage flagForCountryCode:country[@"code"]];
+    return view;
+}
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+    return [countries count];
+}
+
+
 
 /*
 #pragma mark - Navigation

@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 Ramaraj. All rights reserved.
 //
 
-#import "UIImage+Flags.h"
+#import "UIImage+RSFlags.h"
 
 const float flagHeight  = 11.0;
 const float flagWeight   = 16.0;
 
-@implementation UIImage (Flags)
+@implementation UIImage (RSFlags)
 
 static inline CGRect CGRectMultiply(CGRect rect, CGFloat factor)
 {

@@ -94,8 +94,25 @@
                                     <outlet property="delegate" destination="S9o-HH-xcq" id="ZSs-aP-9DV"/>
                                 </connections>
                             </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pbm-bZ-xL6">
+                                <rect key="frame" x="120" y="160" width="360" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QyJ-cZ-zv6">
+                                <rect key="frame" x="60" y="259" width="480" height="150"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="dFz-SY-grL"/>
+                                </constraints>
+                                <string key="text">The first text field has a left view, which will update the flag of the respective country when you enter the dial code
+
+The second one has a picker as it's inputview which loads the country lists along with their flag.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9PD-Tx-Hfz">
-                                <rect key="frame" x="290" y="249" width="40" height="20"/>
+                                <rect key="frame" x="-72" y="109" width="35" height="20"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ifr-VG-280">
                                         <rect key="frame" x="12" y="4" width="16" height="11"/>
@@ -106,14 +123,21 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="Pbm-bZ-xL6" secondAttribute="centerX" id="0kV-ld-56S"/>
                             <constraint firstAttribute="centerX" secondItem="GNr-dy-9yV" secondAttribute="centerX" id="4s1-Sr-6Qk"/>
+                            <constraint firstItem="QyJ-cZ-zv6" firstAttribute="top" secondItem="Pbm-bZ-xL6" secondAttribute="bottom" constant="69" id="64Y-tX-Of9"/>
                             <constraint firstItem="GNr-dy-9yV" firstAttribute="top" secondItem="RPf-ea-dR5" secondAttribute="bottom" constant="75" id="C6b-xG-YUh"/>
+                            <constraint firstItem="Pbm-bZ-xL6" firstAttribute="top" secondItem="GNr-dy-9yV" secondAttribute="bottom" constant="35" id="N4K-BU-Ete"/>
+                            <constraint firstItem="GNr-dy-9yV" firstAttribute="width" secondItem="Pbm-bZ-xL6" secondAttribute="width" id="U9K-fk-62j"/>
                             <constraint firstAttribute="trailing" secondItem="Aii-e2-Jt6" secondAttribute="trailing" constant="10" id="aFj-hs-ACQ"/>
+                            <constraint firstItem="QyJ-cZ-zv6" firstAttribute="width" secondItem="Co9-zr-vGH" secondAttribute="width" multiplier="0.8" id="f1P-hT-mJE"/>
                             <constraint firstItem="Aii-e2-Jt6" firstAttribute="top" secondItem="Co9-zr-vGH" secondAttribute="top" constant="30" id="mAg-od-5ex"/>
                             <constraint firstItem="GNr-dy-9yV" firstAttribute="width" secondItem="Co9-zr-vGH" secondAttribute="width" multiplier="0.6" id="sex-dC-s4N"/>
+                            <constraint firstAttribute="centerX" secondItem="QyJ-cZ-zv6" secondAttribute="centerX" id="sgk-Kx-WgS"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="countryField" destination="Pbm-bZ-xL6" id="a43-bG-zp1"/>
                         <outlet property="flagImageView" destination="Ifr-VG-280" id="5Vn-Wb-il7"/>
                         <outlet property="phoneNumberField" destination="GNr-dy-9yV" id="Uvh-m3-5nf"/>
                         <outlet property="redView" destination="9PD-Tx-Hfz" id="6UL-Cg-Z4R"/>

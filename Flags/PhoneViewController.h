@@ -12,6 +12,7 @@
 {
     
     __weak IBOutlet UITextField *phoneNumberField;
+    __weak IBOutlet UITextField *countryField;
     __weak IBOutlet UIView *redView;
     __weak IBOutlet UIImageView *flagImageView;
     
